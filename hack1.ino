@@ -2,6 +2,7 @@ int trig=4;
   int echo=2;
   int distance;
   long duration;
+int s;
   volatile int NbTopsFan; //measuring the rising edges of the signal
 int Calc;                               
 int hallsensor=9;
@@ -11,9 +12,10 @@ void rpm ()     //This is the function that the interupt calls
 } 
 void setup() {
   // put your setup code here, to run once:
- pinMode(trig,OUTPUT);
+ pinMode(A0,INPUT);
+  pinMode(trig,OUTPUT);
   pinMode(echo,INPUT);
-   pinMode(8,OUTPUT);
+   //pinMode(8,OUTPUT);
   pinMode(9,OUTPUT);
   Serial.begin(115200);
  pinMode(hallsensor, INPUT); //initializes digital pin 2 as an input
@@ -42,6 +44,16 @@ distance=0.034*duration;
  Serial.println(Calc, DEC); //Prints the number calculated above
  Serial.println(" L/hour\r\n");
 Serial.println(distance);
+  int s=analogRead(A0);
+  Serial.println(s);
+  if (s<200)
+  {
+    digitalWrite(9,HIGH);
+  }
+  else
+  {
+    digitalWrite(9,LOW);
+  }
 Serial.println("AT+CIPSTART=\"TCP\",\"api.thingspeak.com\",80");
 delay(100);
 if (Serial.find("Error")){return;}
